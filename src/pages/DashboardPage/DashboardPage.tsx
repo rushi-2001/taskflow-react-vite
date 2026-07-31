@@ -1,14 +1,149 @@
-import { Box, Typography } from '@mui/material';
+import { useEffect, useMemo } from 'react';
+import { Box, Typography, Grid, Card, CardContent, LinearProgress } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { fetchTasks, selectAllTasks, selectTaskStats, selectTasksStatus } from '@/features/tasks/taskSlice';
+import StatsOverview from './StatsOverview';
+import TaskStatusChart from './TaskStatusChart';
+import UserBreakdownTable from './UserBreakdownTable';
+import Loader from '@/components/common/Loader';
 
 export default function DashboardPage() {
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(selectAllTasks);
+  const status = useAppSelector(selectTasksStatus);
+  const stats = useAppSelector(selectTaskStats);
+  const { user } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  // Translate status metrics for charting
+  const chartData = useMemo(() => {
+    return [
+      { name: 'Completed', value: stats.completed },
+      { name: 'In Progress', value: stats.inProgress },
+      { name: 'Pending', value: stats.pending },
+    ];
+  }, [stats]);
+
+  // Compute priority breakdown metrics
+  const priorityStats = useMemo(() => {
+    const high = tasks.filter((t) => t.priority === 'high').length;
+    const medium = tasks.filter((t) => t.priority === 'medium').length;
+    const low = tasks.filter((t) => t.priority === 'low').length;
+    const total = high + medium + low || 1; // avoid divide by zero
+
+    return {
+      high,
+      medium,
+      low,
+      highPercent: (high / total) * 100,
+      mediumPercent: (medium / total) * 100,
+      lowPercent: (low / total) * 100,
+    };
+  }, [tasks]);
+
+  if (status === 'loading' && tasks.length === 0) {
+    return <Loader />;
+  }
+
+  const isAdmin = user?.role === 'admin';
+
   return (
     <Box>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-        Dashboard
-      </Typography>
-      <Typography variant="body1">
-        Welcome to your dashboard overview.
-      </Typography>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}>
+          Dashboard Overview
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Real-time metrics, priorities breakdown, and task statuses.
+        </Typography>
+      </Box>
+
+      {/* 5 Status Cards */}
+      <StatsOverview stats={stats} />
+
+      <Grid container spacing={3}>
+        {/* Pie Chart */}
+        <Grid item xs={12} md={8}>
+          <TaskStatusChart data={chartData} />
+        </Grid>
+
+        {/* Priority Breakdown Progress Bars */}
+        <Grid item xs={12} md={4}>
+          <Card sx={{ height: 350, display: 'flex', flexDirection: 'column' }}>
+            <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                Priority Distribution
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ mb: 4, display: 'block' }}>
+                Breakdown of task volume by urgency priority level.
+              </Typography>
+
+              <StackPriorityRow
+                label="High Priority"
+                count={priorityStats.high}
+                value={priorityStats.highPercent}
+                color="#ef4444"
+              />
+
+              <StackPriorityRow
+                label="Medium Priority"
+                count={priorityStats.medium}
+                value={priorityStats.mediumPercent}
+                color="#f59e0b"
+              />
+
+              <StackPriorityRow
+                label="Low Priority"
+                count={priorityStats.low}
+                value={priorityStats.lowPercent}
+                color="#0284c7"
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Admin view only table */}
+      {isAdmin && <UserBreakdownTable tasks={tasks} />}
+    </Box>
+  );
+}
+
+// Sub-component helper for priority progress list items
+interface StackPriorityRowProps {
+  label: string;
+  count: number;
+  value: number;
+  color: string;
+}
+
+function StackPriorityRow({ label, count, value, color }: StackPriorityRowProps) {
+  return (
+    <Box sx={{ mb: 2.5 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+          {label}
+        </Typography>
+        <Typography variant="body2" sx={{ fontWeight: 600, color }}>
+          {count} {count === 1 ? 'task' : 'tasks'}
+        </Typography>
+      </Box>
+      <LinearProgress
+        variant="determinate"
+        value={value}
+        sx={{
+          height: 8,
+          borderRadius: 4,
+          bgcolor: 'rgba(0,0,0,0.05)',
+          '& .MuiLinearProgress-bar': {
+            borderRadius: 4,
+            bgcolor: color,
+          },
+        }}
+      />
     </Box>
   );
 }
