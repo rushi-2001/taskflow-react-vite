@@ -1,4 +1,12 @@
-import { Box, TextField, MenuItem, Select, FormControl, InputLabel, InputAdornment } from '@mui/material';
+import {
+  Box,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 interface TaskFiltersProps {

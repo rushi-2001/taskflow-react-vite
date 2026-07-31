@@ -21,7 +21,9 @@ export default function TaskStatusChart({ data }: TaskStatusChartProps) {
         </Typography>
 
         {!hasData ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
+          >
             <Typography variant="body2" color="text.secondary">
               No task data available to render chart.
             </Typography>

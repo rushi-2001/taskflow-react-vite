@@ -31,7 +31,11 @@ export default function LoginPage() {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -69,17 +73,17 @@ export default function LoginPage() {
               TF
             </Typography>
           </Box>
-          <Typography component="h1" variant="h5" sx={{ fontWeight: 700, mb: 1, color: 'text.primary' }}>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{ fontWeight: 700, mb: 1, color: 'text.primary' }}
+          >
             Welcome to TaskFlow
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
             Manage your project tasks efficiently with roles and priority metrics.
           </Typography>
-          <LoginForm
-            onSubmit={handleLoginSubmit}
-            isLoading={status === 'loading'}
-            error={error}
-          />
+          <LoginForm onSubmit={handleLoginSubmit} isLoading={status === 'loading'} error={error} />
         </Card>
       </Box>
     </Container>

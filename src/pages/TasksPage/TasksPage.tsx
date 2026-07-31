@@ -2,7 +2,16 @@ import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Box, Typography, Button, Alert } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { fetchTasks, createTask, updateTask, deleteTask, clearTaskError, selectAllTasks, selectTasksStatus, selectTasksError } from '@/features/tasks/taskSlice';
+import {
+  fetchTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+  clearTaskError,
+  selectAllTasks,
+  selectTasksStatus,
+  selectTasksError,
+} from '@/features/tasks/taskSlice';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useUI } from '@/context/UIContext';
 import TaskFilters from './TaskFilters';
@@ -28,7 +37,7 @@ export default function TasksPage() {
   // Dialogs state
   const [formOpen, setFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
-  
+
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
 
@@ -72,9 +81,7 @@ export default function TasksPage() {
     if (debouncedSearch.trim() !== '') {
       const q = debouncedSearch.toLowerCase();
       result = result.filter(
-        (t) =>
-          t.title.toLowerCase().includes(q) ||
-          t.description.toLowerCase().includes(q)
+        (t) => t.title.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)
       );
     }
 
@@ -190,9 +197,21 @@ export default function TasksPage() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 2,
+          mb: 3,
+        }}
+      >
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}>
+          <Typography
+            variant="h4"
+            sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
+          >
             Project Tasks
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -216,7 +235,11 @@ export default function TasksPage() {
       </Box>
 
       {error && (
-        <Alert severity="error" onClose={() => dispatch(clearTaskError())} sx={{ mb: 3, borderRadius: 2 }}>
+        <Alert
+          severity="error"
+          onClose={() => dispatch(clearTaskError())}
+          sx={{ mb: 3, borderRadius: 2 }}
+        >
           {error}
         </Alert>
       )}

@@ -10,13 +10,14 @@ export function bootstrapMockApi() {
   let mockTasks: Task[] = [...seedTasks];
 
   // Helper to extract user from Authorization header
-  const getAuthUser = (headers: Record<string, string | undefined>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getAuthUser = (headers: any) => {
     const authHeader = headers?.Authorization || headers?.authorization;
     if (!authHeader || typeof authHeader !== 'string') return null;
-    
+
     const token = authHeader.replace('Bearer ', '').trim();
     if (!token.startsWith('mock_token_for_')) return null;
-    
+
     const userId = token.replace('mock_token_for_', '');
     const user = seedUsers.find((u) => u.id === userId);
     return user || null;
@@ -30,28 +31,22 @@ export function bootstrapMockApi() {
   // --- AUTH LOGIN ---
   mock.onPost('/auth/login').reply((config) => {
     if (shouldFailRandomly()) {
-      return [
-        500,
-        { message: 'Internal server error: Simulated transient API failure.' },
-      ];
+      return [500, { message: 'Internal server error: Simulated transient API failure.' }];
     }
 
     try {
       const { email, password } = JSON.parse(config.data || '{}');
       const user = seedUsers.find((u) => u.email === email && u.password === password);
-      
+
       if (!user) {
-        return [
-          401,
-          { message: 'Invalid email or password.' },
-        ];
+        return [401, { message: 'Invalid email or password.' }];
       }
 
       // Return user profile and a simulated token
       const token = `mock_token_for_${user.id}`;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _, ...userWithoutPassword } = user;
-      
+
       return [
         200,
         {
@@ -93,7 +88,7 @@ export function bootstrapMockApi() {
 
     try {
       const data = JSON.parse(config.data || '{}');
-      
+
       if (!data.title || !data.description || !data.priority) {
         return [400, { message: 'Missing required task fields.' }];
       }
@@ -147,7 +142,7 @@ export function bootstrapMockApi() {
 
     try {
       const data = JSON.parse(config.data || '{}');
-      
+
       const updatedTask: Task = {
         ...task,
         title: data.title !== undefined ? data.title : task.title,
@@ -190,7 +185,7 @@ export function bootstrapMockApi() {
 
     // Check permissions
     if (user.role !== 'admin' && task.ownerId !== user.id) {
-      return [403, { message: 'Forbidden. You cannot delete someone else\'s task.' }];
+      return [403, { message: "Forbidden. You cannot delete someone else's task." }];
     }
 
     mockTasks = mockTasks.filter((t) => t.id !== taskId);

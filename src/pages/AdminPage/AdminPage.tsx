@@ -17,7 +17,10 @@ export default function AdminPage() {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
+        >
           Admin Panel
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -35,12 +38,7 @@ export default function AdminPage() {
         }}
       >
         <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 30%' } }}>
-          <StatCard
-            title="Total Users"
-            value={totalUsers}
-            color="primary"
-            icon={<PeopleIcon />}
-          />
+          <StatCard title="Total Users" value={totalUsers} color="primary" icon={<PeopleIcon />} />
         </Box>
         <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 30%' } }}>
           <StatCard

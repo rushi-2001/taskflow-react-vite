@@ -1,10 +1,16 @@
 import { useEffect, useMemo } from 'react';
-import { Box, Typography, Card, CardContent, LinearProgress } from '@mui/material';
+import { Box, Typography, Card, CardContent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { fetchTasks, selectAllTasks, selectTaskStats, selectTasksStatus } from '@/features/tasks/taskSlice';
+import {
+  fetchTasks,
+  selectAllTasks,
+  selectTaskStats,
+  selectTasksStatus,
+} from '@/features/tasks/taskSlice';
 import StatsOverview from './StatsOverview';
 import TaskStatusChart from './TaskStatusChart';
 import UserBreakdownTable from './UserBreakdownTable';
+import StackPriorityRow from './StackPriorityRow';
 import Loader from '@/components/common/Loader';
 
 export default function DashboardPage() {
@@ -53,7 +59,10 @@ export default function DashboardPage() {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
+        >
           Dashboard Overview
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -114,42 +123,6 @@ export default function DashboardPage() {
 
       {/* Admin view only table */}
       {isAdmin && <UserBreakdownTable tasks={tasks} />}
-    </Box>
-  );
-}
-
-// Sub-component helper for priority progress list items
-interface StackPriorityRowProps {
-  label: string;
-  count: number;
-  value: number;
-  color: string;
-}
-
-function StackPriorityRow({ label, count, value, color }: StackPriorityRowProps) {
-  return (
-    <Box sx={{ mb: 2.5 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-          {label}
-        </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 600, color }}>
-          {count} {count === 1 ? 'task' : 'tasks'}
-        </Typography>
-      </Box>
-      <LinearProgress
-        variant="determinate"
-        value={value}
-        sx={{
-          height: 8,
-          borderRadius: 4,
-          bgcolor: 'rgba(0,0,0,0.05)',
-          '& .MuiLinearProgress-bar': {
-            borderRadius: 4,
-            bgcolor: color,
-          },
-        }}
-      />
     </Box>
   );
 }

@@ -85,7 +85,15 @@ export const TaskItem = React.memo(function TaskItem({
               {task.description}
             </Typography>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                gap: 1,
+                alignItems: 'center',
+              }}
+            >
               <StatusChip type="status" value={task.status} />
               <StatusChip type="priority" value={task.priority} />
 
@@ -102,7 +110,11 @@ export const TaskItem = React.memo(function TaskItem({
                     fontWeight: overdue ? 600 : 500,
                   }}
                 >
-                  {overdue ? <WarningAmberIcon fontSize="inherit" /> : <CalendarMonthIcon fontSize="inherit" />}
+                  {overdue ? (
+                    <WarningAmberIcon fontSize="inherit" />
+                  ) : (
+                    <CalendarMonthIcon fontSize="inherit" />
+                  )}
                   <span>
                     Due: {task.dueDate} {overdue && '(Overdue)'}
                   </span>

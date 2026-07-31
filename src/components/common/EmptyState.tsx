@@ -41,7 +41,11 @@ export default function EmptyState({
         {description}
       </Typography>
       {actionText && onAction && (
-        <Button variant="outlined" onClick={onAction} sx={{ borderRadius: 2, textTransform: 'none' }}>
+        <Button
+          variant="outlined"
+          onClick={onAction}
+          sx={{ borderRadius: 2, textTransform: 'none' }}
+        >
           {actionText}
         </Button>
       )}

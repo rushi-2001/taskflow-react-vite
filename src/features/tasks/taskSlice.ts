@@ -18,29 +18,27 @@ const initialState: TaskState = {
 
 // --- ASYNC THUNKS ---
 
-export const fetchTasks = createAsyncThunk<
-  Task[],
-  void,
-  { rejectValue: NormalizedApiError }
->('tasks/fetchTasks', async (_, { rejectWithValue }) => {
-  try {
-    return await taskApi.fetchTasks();
-  } catch (err) {
-    return rejectWithValue(err as NormalizedApiError);
+export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: NormalizedApiError }>(
+  'tasks/fetchTasks',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await taskApi.fetchTasks();
+    } catch (err) {
+      return rejectWithValue(err as NormalizedApiError);
+    }
   }
-});
+);
 
-export const createTask = createAsyncThunk<
-  Task,
-  TaskDraft,
-  { rejectValue: NormalizedApiError }
->('tasks/createTask', async (draft, { rejectWithValue }) => {
-  try {
-    return await taskApi.createTask(draft);
-  } catch (err) {
-    return rejectWithValue(err as NormalizedApiError);
+export const createTask = createAsyncThunk<Task, TaskDraft, { rejectValue: NormalizedApiError }>(
+  'tasks/createTask',
+  async (draft, { rejectWithValue }) => {
+    try {
+      return await taskApi.createTask(draft);
+    } catch (err) {
+      return rejectWithValue(err as NormalizedApiError);
+    }
   }
-});
+);
 
 export const updateTask = createAsyncThunk<
   Task,

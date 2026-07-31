@@ -42,7 +42,12 @@ export default function StatCard({ title, value, icon, color = 'primary' }: Stat
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: '0.75rem' }}
+              sx={{
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                fontSize: '0.75rem',
+              }}
             >
               {title}
             </Typography>

@@ -1,4 +1,15 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Card, CardContent } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Card,
+  CardContent,
+} from '@mui/material';
 import type { Task } from '@/types/task.types';
 import { seedUsers } from '@/api/mock/seedData';
 
@@ -36,16 +47,28 @@ export default function UserBreakdownTable({ tasks }: UserBreakdownTableProps) {
           Administrators only. Summarizing task volumes and execution status per employee.
         </Typography>
 
-        <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+        <TableContainer
+          component={Paper}
+          elevation={0}
+          sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2 }}
+        >
           <Table>
             <TableHead sx={{ bgcolor: '#f8fafc' }}>
               <TableRow>
                 <TableCell sx={{ fontWeight: 600 }}>User</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Role</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 600 }}>Total Tasks</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 600 }}>Pending</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 600 }}>In Progress</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 600 }}>Completed</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  Total Tasks
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  Pending
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  In Progress
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  Completed
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -34,15 +34,32 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <Container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+          }}
+        >
           <ReportIcon sx={{ fontSize: 80, color: 'error.main', mb: 2 }} />
           <Typography variant="h3" sx={{ fontWeight: 800, mb: 1, textAlign: 'center' }}>
             Something went wrong
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 4, textAlign: 'center', maxWidth: 480 }}>
-            An unexpected visual component rendering error has occurred: {this.state.error?.message || 'Unknown render error'}
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ mb: 4, textAlign: 'center', maxWidth: 480 }}
+          >
+            An unexpected visual component rendering error has occurred:{' '}
+            {this.state.error?.message || 'Unknown render error'}
           </Typography>
-          <Button variant="contained" onClick={this.handleReset} sx={{ py: 1.2, px: 3, borderRadius: 2 }}>
+          <Button
+            variant="contained"
+            onClick={this.handleReset}
+            sx={{ py: 1.2, px: 3, borderRadius: 2 }}
+          >
             Reload Dashboard
           </Button>
         </Container>

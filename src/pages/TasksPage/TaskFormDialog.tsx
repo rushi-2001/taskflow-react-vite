@@ -1,5 +1,18 @@
 import { useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, FormControl, InputLabel, Select, CircularProgress, FormHelperText } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  CircularProgress,
+  FormHelperText,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import { taskValidationSchema } from './taskValidationSchema';
 import type { Task, TaskDraft, TaskPriority } from '@/types/task.types';
@@ -12,7 +25,13 @@ interface TaskFormDialogProps {
   isLoading: boolean;
 }
 
-export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoading }: TaskFormDialogProps) {
+export default function TaskFormDialog({
+  open,
+  task,
+  onClose,
+  onSubmit,
+  isLoading,
+}: TaskFormDialogProps) {
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -123,7 +142,13 @@ export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoadin
             Cancel
           </Button>
           <Button type="submit" disabled={isLoading} variant="contained" sx={{ fontWeight: 600 }}>
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : task ? 'Save Changes' : 'Create Task'}
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : task ? (
+              'Save Changes'
+            ) : (
+              'Create Task'
+            )}
           </Button>
         </DialogActions>
       </form>

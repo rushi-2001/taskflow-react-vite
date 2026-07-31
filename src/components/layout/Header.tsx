@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Box, Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUI } from '@/context/UIContext';
@@ -71,12 +81,17 @@ export default function Header() {
 
         {user && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body2" sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 500, display: { xs: 'none', sm: 'block' } }}
+            >
               {user.name} ({user.role})
             </Typography>
             <Tooltip title="Account settings">
               <IconButton onClick={handleMenuOpen} size="small" sx={{ ml: 1 }}>
-                <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', fontSize: '0.85rem' }}>
+                <Avatar
+                  sx={{ width: 32, height: 32, bgcolor: 'primary.main', fontSize: '0.85rem' }}
+                >
                   {user.name
                     .split(' ')
                     .map((n) => n[0])
