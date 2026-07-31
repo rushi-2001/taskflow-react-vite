@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Box, Typography, Grid, Card, CardContent, LinearProgress } from '@mui/material';
+import { Box, Typography, Card, CardContent, LinearProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchTasks, selectAllTasks, selectTaskStats, selectTasksStatus } from '@/features/tasks/taskSlice';
 import StatsOverview from './StatsOverview';
@@ -64,14 +64,20 @@ export default function DashboardPage() {
       {/* 5 Status Cards */}
       <StatsOverview stats={stats} />
 
-      <Grid container spacing={3}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 3,
+        }}
+      >
         {/* Pie Chart */}
-        <Grid item xs={12} md={8}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '2 2 0' }, minWidth: 0 }}>
           <TaskStatusChart data={chartData} />
-        </Grid>
+        </Box>
 
         {/* Priority Breakdown Progress Bars */}
-        <Grid item xs={12} md={4}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '1 1 0' }, minWidth: 280 }}>
           <Card sx={{ height: 350, display: 'flex', flexDirection: 'column' }}>
             <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
@@ -103,8 +109,8 @@ export default function DashboardPage() {
               />
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Admin view only table */}
       {isAdmin && <UserBreakdownTable tasks={tasks} />}

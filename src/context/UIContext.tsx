@@ -1,4 +1,6 @@
-import { createContext, useContext, useReducer, ReactNode, useMemo } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useReducer, useMemo } from 'react';
+import type { ReactNode } from 'react';
 
 export interface SnackbarMessage {
   id: string;

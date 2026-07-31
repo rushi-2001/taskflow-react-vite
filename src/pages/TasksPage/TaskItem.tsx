@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, CardContent, Typography, Checkbox, IconButton, Box, Stack, Tooltip } from '@mui/material';
+import { Card, CardContent, Typography, Checkbox, IconButton, Box, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import StatusChip from '@/components/common/StatusChip';
-import { Task } from '@/types/task.types';
+import type { Task } from '@/types/task.types';
 
 interface TaskItemProps {
   task: Task;
@@ -50,14 +50,14 @@ export const TaskItem = React.memo(function TaskItem({
       }}
     >
       <CardContent sx={{ py: '16px !important', px: 2 }}>
-        <Stack direction="row" alignItems="flex-start" spacing={1}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 1 }}>
           <Checkbox
             checked={isCompleted}
             onChange={() => onToggleStatus(task.id, task.status)}
             color="primary"
             sx={{ mt: -0.5 }}
           />
-          
+
           <Box sx={{ flexGrow: 1, minWidth: 0 }}>
             <Typography
               variant="h6"
@@ -71,7 +71,7 @@ export const TaskItem = React.memo(function TaskItem({
             >
               {task.title}
             </Typography>
-            
+
             <Typography
               variant="body2"
               color="text.secondary"
@@ -85,16 +85,17 @@ export const TaskItem = React.memo(function TaskItem({
               {task.description}
             </Typography>
 
-            <Stack direction="row" flexWrap="wrap" gap={1} alignItems="center">
+            <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
               <StatusChip type="status" value={task.status} />
               <StatusChip type="priority" value={task.priority} />
-              
+
               {task.dueDate && (
-                <Stack
-                  direction="row"
-                  spacing={0.5}
-                  alignItems="center"
+                <Box
                   sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: 0.5,
+                    alignItems: 'center',
                     ml: 1,
                     color: overdue ? 'error.main' : 'text.secondary',
                     fontSize: '0.75rem',
@@ -102,13 +103,15 @@ export const TaskItem = React.memo(function TaskItem({
                   }}
                 >
                   {overdue ? <WarningAmberIcon fontSize="inherit" /> : <CalendarMonthIcon fontSize="inherit" />}
-                  <span>Due: {task.dueDate} {overdue && '(Overdue)'}</span>
-                </Stack>
+                  <span>
+                    Due: {task.dueDate} {overdue && '(Overdue)'}
+                  </span>
+                </Box>
               )}
-            </Stack>
+            </Box>
           </Box>
 
-          <Stack direction="row" spacing={0.5} sx={{ alignSelf: 'flex-start' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.5, alignSelf: 'flex-start' }}>
             <Tooltip title="Edit task">
               <IconButton size="small" onClick={() => onEdit(task)} color="primary">
                 <EditIcon fontSize="small" />
@@ -119,8 +122,8 @@ export const TaskItem = React.memo(function TaskItem({
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Tooltip>
-          </Stack>
-        </Stack>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   );

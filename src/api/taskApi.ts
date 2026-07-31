@@ -1,5 +1,5 @@
 import { axiosClient } from './axiosClient';
-import { Task, TaskDraft } from '@/types/task.types';
+import type { Task, TaskDraft } from '@/types/task.types';
 
 export const fetchTasks = (): Promise<Task[]> => {
   return axiosClient.get<Task[]>('/tasks').then((r) => r.data);

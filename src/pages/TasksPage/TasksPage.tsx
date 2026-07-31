@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { Box, Typography, Button, Alert, Grid } from '@mui/material';
+import { Box, Typography, Button, Alert } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchTasks, createTask, updateTask, deleteTask, clearTaskError, selectAllTasks, selectTasksStatus, selectTasksError } from '@/features/tasks/taskSlice';
@@ -8,9 +8,9 @@ import { useUI } from '@/context/UIContext';
 import TaskFilters from './TaskFilters';
 import TaskList from './TaskList';
 import TaskFormDialog from './TaskFormDialog';
-import ConfirmDialog from './ConfirmDialog';
+import ConfirmDialog from '@/components/common/ConfirmDialog';
 import Loader from '@/components/common/Loader';
-import { Task, TaskDraft } from '@/types/task.types';
+import type { Task, TaskDraft } from '@/types/task.types';
 
 export default function TasksPage() {
   const dispatch = useAppDispatch();
@@ -190,16 +190,16 @@ export default function TasksPage() {
 
   return (
     <Box>
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-        <Grid item>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+        <Box>
           <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}>
             Project Tasks
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Manage, organize, and track your ongoing project tasks.
           </Typography>
-        </Grid>
-        <Grid item>
+        </Box>
+        <Box>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -212,8 +212,8 @@ export default function TasksPage() {
           >
             Create Task
           </Button>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {error && (
         <Alert severity="error" onClose={() => dispatch(clearTaskError())} sx={{ mb: 3, borderRadius: 2 }}>

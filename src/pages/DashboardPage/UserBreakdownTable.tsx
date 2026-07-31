@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Card, CardContent } from '@mui/material';
-import { Task } from '@/types/task.types';
+import type { Task } from '@/types/task.types';
 import { seedUsers } from '@/api/mock/seedData';
 
 interface UserBreakdownTableProps {

@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useAppSelector } from '@/app/hooks';
 import UserBreakdownTable from '../DashboardPage/UserBreakdownTable';
 import StatCard from '@/components/common/StatCard';
@@ -25,32 +25,40 @@ export default function AdminPage() {
         </Typography>
       </Box>
 
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={4}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: 3,
+          mb: 4,
+        }}
+      >
+        <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 30%' } }}>
           <StatCard
             title="Total Users"
             value={totalUsers}
             color="primary"
             icon={<PeopleIcon />}
           />
-        </Grid>
-        <Grid item xs={12} sm={4}>
+        </Box>
+        <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 30%' } }}>
           <StatCard
             title="Administrators"
             value={adminUsers}
             color="warning"
             icon={<AdminPanelSettingsIcon />}
           />
-        </Grid>
-        <Grid item xs={12} sm={4}>
+        </Box>
+        <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 30%' } }}>
           <StatCard
             title="Standard Users"
             value={standardUsers}
             color="info"
             icon={<PeopleIcon />}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       <UserBreakdownTable tasks={tasks} />
     </Box>

@@ -4,7 +4,7 @@ import { Box, Card, Typography, Container } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { login, clearError } from '@/features/auth/authSlice';
 import LoginForm from './LoginForm';
-import { AuthCredentials } from '@/types/user.types';
+import type { AuthCredentials } from '@/types/user.types';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const { user, status, error } = useAppSelector((state) => state.auth);
 
-  const from = (location.state as any)?.from?.pathname || '/dashboard';
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
   useEffect(() => {
     if (user) {

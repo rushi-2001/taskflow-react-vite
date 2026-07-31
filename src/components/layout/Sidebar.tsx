@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, Box } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, Box, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -73,11 +73,11 @@ export default function Sidebar() {
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText
-                    primary={item.text}
-                    primaryTypographyProps={{
-                      fontSize: '0.9rem',
-                      fontWeight: active ? 600 : 500,
-                    }}
+                    primary={
+                      <Typography sx={{ fontSize: '0.9rem', fontWeight: active ? 600 : 500 }}>
+                        {item.text}
+                      </Typography>
+                    }
                   />
                 </ListItemButton>
               </ListItem>

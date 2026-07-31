@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import { axiosClient } from '../axiosClient';
 import { seedUsers, seedTasks } from './seedData';
-import { Task } from '@/types/task.types';
+import type { Task } from '@/types/task.types';
 
 export function bootstrapMockApi() {
   const mock = new MockAdapter(axiosClient, { delayResponse: 500 });
@@ -10,7 +10,7 @@ export function bootstrapMockApi() {
   let mockTasks: Task[] = [...seedTasks];
 
   // Helper to extract user from Authorization header
-  const getAuthUser = (headers: any) => {
+  const getAuthUser = (headers: Record<string, string | undefined>) => {
     const authHeader = headers?.Authorization || headers?.authorization;
     if (!authHeader || typeof authHeader !== 'string') return null;
     

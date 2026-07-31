@@ -18,7 +18,15 @@ export default function ConfirmDialog({
   isLoading = false,
 }: ConfirmDialogProps) {
   return (
-    <Dialog open={open} onClose={isLoading ? undefined : onClose} PaperProps={{ sx: { borderRadius: 3, p: 1 } }}>
+    <Dialog
+      open={open}
+      onClose={isLoading ? undefined : onClose}
+      slotProps={{
+        paper: {
+          sx: { borderRadius: 3, p: 1 },
+        },
+      }}
+    >
       <DialogTitle sx={{ fontWeight: 700, pb: 1 }}>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText color="text.secondary">{message}</DialogContentText>

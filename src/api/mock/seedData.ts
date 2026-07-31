@@ -1,5 +1,4 @@
-import { User } from '@/types/user.types';
-import { Task } from '@/types/task.types';
+import type { Task } from '@/types/task.types';
 
 export const seedUsers = [
   {

@@ -1,6 +1,6 @@
 import TaskItem from './TaskItem';
 import EmptyState from '@/components/common/EmptyState';
-import { Task } from '@/types/task.types';
+import type { Task } from '@/types/task.types';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 interface TaskListProps {

@@ -5,6 +5,7 @@ import { theme } from '@/theme/theme';
 import { UIProvider } from '@/context/UIContext';
 import AppRoutes from '@/routes/AppRoutes';
 import AppSnackbar from '@/components/common/AppSnackbar';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 export default function App() {
   return (
@@ -12,7 +13,9 @@ export default function App() {
       <CssBaseline />
       <UIProvider>
         <BrowserRouter>
-          <AppRoutes />
+          <ErrorBoundary>
+            <AppRoutes />
+          </ErrorBoundary>
           <AppSnackbar />
         </BrowserRouter>
       </UIProvider>

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, FormControl, InputLabel, Select, CircularProgress, FormHelperText } from '@mui/material';
 import { useFormik } from 'formik';
 import { taskValidationSchema } from './taskValidationSchema';
-import { Task, TaskDraft } from '@/types/task.types';
+import type { Task, TaskDraft, TaskPriority } from '@/types/task.types';
 
 interface TaskFormDialogProps {
   open: boolean;
@@ -17,7 +17,7 @@ export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoadin
     initialValues: {
       title: '',
       description: '',
-      priority: 'medium' as const,
+      priority: 'medium',
       dueDate: '',
     },
     validationSchema: taskValidationSchema,
@@ -25,7 +25,7 @@ export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoadin
       const payload: TaskDraft = {
         title: values.title,
         description: values.description,
-        priority: values.priority as any,
+        priority: values.priority as TaskPriority,
         dueDate: values.dueDate ? values.dueDate : undefined,
       };
       onSubmit(payload);
@@ -49,7 +49,17 @@ export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoadin
   }, [open, task]);
 
   return (
-    <Dialog open={open} onClose={isLoading ? undefined : onClose} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: 3 } }}>
+    <Dialog
+      open={open}
+      onClose={isLoading ? undefined : onClose}
+      fullWidth
+      maxWidth="sm"
+      slotProps={{
+        paper: {
+          sx: { borderRadius: 3 },
+        },
+      }}
+    >
       <DialogTitle sx={{ fontWeight: 700 }}>{task ? 'Edit Task' : 'Create New Task'}</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
@@ -100,7 +110,7 @@ export default function TaskFormDialog({ open, task, onClose, onSubmit, isLoadin
             label="Due Date"
             type="date"
             fullWidth
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
             value={formik.values.dueDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

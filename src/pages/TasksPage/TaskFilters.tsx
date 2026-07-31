@@ -41,12 +41,14 @@ export default function TaskFilters({
         size="small"
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon color="action" />
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+          },
         }}
         sx={{ flexGrow: 1, minWidth: '200px' }}
       />

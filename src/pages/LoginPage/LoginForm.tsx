@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { TextField, Button, Box, Alert, CircularProgress } from '@mui/material';
 import { loginValidationSchema } from './loginValidationSchema';
-import { AuthCredentials } from '@/types/user.types';
+import type { AuthCredentials } from '@/types/user.types';
 
 interface LoginFormProps {
   onSubmit: (values: AuthCredentials) => void;

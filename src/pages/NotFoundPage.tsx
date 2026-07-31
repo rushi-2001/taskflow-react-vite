@@ -1,13 +1,13 @@
-import { Box, Button, Typography, Container } from '@mui/material';
+import { Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorIcon from '@mui/icons-material/Error';
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
-      <ErrorOutlineIcon sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
+      <ErrorIcon sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
       <Typography variant="h3" sx={{ fontWeight: 800, mb: 1, textAlign: 'center' }}>
         404 - Page Not Found
       </Typography>

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAppSelector } from '@/app/hooks';
-import { Role } from '@/types/user.types';
+import type { Role } from '@/types/user.types';
 
 interface RoleRouteProps {
   allowedRoles: Role[];

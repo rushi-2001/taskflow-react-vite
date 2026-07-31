@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NormalizedApiError } from '@/types/api.types';
+import type { NormalizedApiError } from '@/types/api.types';
 
 export const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL as string,

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { Task, TaskDraft } from '@/types/task.types';
+import type { Task, TaskDraft } from '@/types/task.types';
 import * as taskApi from '@/api/taskApi';
-import { NormalizedApiError } from '@/types/api.types';
-import { RootState } from '@/app/store';
+import type { NormalizedApiError } from '@/types/api.types';
+import type { RootState } from '@/app/store';
 
 interface TaskState {
   items: Task[];
