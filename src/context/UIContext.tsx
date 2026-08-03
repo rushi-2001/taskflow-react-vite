@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useReducer, useMemo } from 'react';
+import { createContext, useContext, useReducer, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
 
 export interface SnackbarMessage {
@@ -64,12 +64,21 @@ const UIContext = createContext<UIContextType | undefined>(undefined);
 export const UIProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(uiReducer, initialState);
 
-  const toggleSidebar = () => dispatch({ type: 'TOGGLE_SIDEBAR' });
-  const setSidebar = (open: boolean) => dispatch({ type: 'SET_SIDEBAR', payload: open });
-  const showNotification = (message: string, severity: SnackbarMessage['severity'] = 'info') => {
-    dispatch({ type: 'ENQUEUE_SNACKBAR', payload: { message, severity } });
-  };
-  const closeNotification = (id: string) => dispatch({ type: 'DEQUEUE_SNACKBAR', payload: id });
+  const toggleSidebar = useCallback(() => dispatch({ type: 'TOGGLE_SIDEBAR' }), []);
+  const setSidebar = useCallback(
+    (open: boolean) => dispatch({ type: 'SET_SIDEBAR', payload: open }),
+    []
+  );
+  const showNotification = useCallback(
+    (message: string, severity: SnackbarMessage['severity'] = 'info') => {
+      dispatch({ type: 'ENQUEUE_SNACKBAR', payload: { message, severity } });
+    },
+    []
+  );
+  const closeNotification = useCallback(
+    (id: string) => dispatch({ type: 'DEQUEUE_SNACKBAR', payload: id }),
+    []
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -79,7 +88,7 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
       showNotification,
       closeNotification,
     }),
-    [state]
+    [state, toggleSidebar, setSidebar, showNotification, closeNotification]
   );
 
   return <UIContext.Provider value={contextValue}>{children}</UIContext.Provider>;

@@ -12,7 +12,14 @@ export function bootstrapMockApi() {
   // Helper to extract user from Authorization header
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getAuthUser = (headers: any) => {
-    const authHeader = headers?.Authorization || headers?.authorization;
+    let authHeader: unknown = null;
+    if (headers) {
+      if (typeof headers.get === 'function') {
+        authHeader = headers.get('Authorization') || headers.get('authorization');
+      } else {
+        authHeader = headers.Authorization || headers.authorization;
+      }
+    }
     if (!authHeader || typeof authHeader !== 'string') return null;
 
     const token = authHeader.replace('Bearer ', '').trim();

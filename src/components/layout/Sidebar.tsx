@@ -104,7 +104,7 @@ export default function Sidebar() {
       open={state.sidebarOpen}
       onClose={() => setSidebar(false)}
       sx={{
-        width: state.sidebarOpen ? drawerWidth : 0,
+        width: isMobile ? 0 : drawerWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: drawerWidth,

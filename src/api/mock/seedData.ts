@@ -1,18 +1,19 @@
 import type { Task } from '@/types/task.types';
+import { ADMIN_CREDENTIALS, USER_CREDENTIALS } from '@/utils/config';
 
 export const seedUsers = [
   {
     id: 'u1',
     name: 'Admin User',
-    email: 'admin@taskflow.com',
-    password: 'admin123',
+    email: ADMIN_CREDENTIALS.email,
+    password: ADMIN_CREDENTIALS.password,
     role: 'admin' as const,
   },
   {
     id: 'u2',
     name: 'Standard User',
-    email: 'user@taskflow.com',
-    password: 'user123',
+    email: USER_CREDENTIALS.email,
+    password: USER_CREDENTIALS.password,
     role: 'user' as const,
   },
 ];
