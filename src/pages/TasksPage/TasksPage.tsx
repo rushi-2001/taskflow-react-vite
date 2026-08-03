@@ -14,6 +14,7 @@ import {
 } from '@/features/tasks/taskSlice';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useUI } from '@/context/UIContext';
+import { seedUsers } from '@/api/mock/seedData';
 import TaskFilters from './TaskFilters';
 import TaskList from './TaskList';
 import TaskFormDialog from './TaskFormDialog';
@@ -26,11 +27,15 @@ export default function TasksPage() {
   const tasks = useAppSelector(selectAllTasks);
   const status = useAppSelector(selectTasksStatus);
   const error = useAppSelector(selectTasksError);
+  const { user: currentUser } = useAppSelector((state) => state.auth);
   const { showNotification } = useUI();
+
+  const isAdmin = currentUser?.role === 'admin';
 
   // Filters state
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedUsers, setSelectedUsers] = useState<string[]>(() => seedUsers.map((u) => u.id));
   const [sortBy, setSortBy] = useState('createdAt_desc');
 
   // Dialogs state
@@ -59,6 +64,7 @@ export default function TasksPage() {
     setSearch('');
     setStatusFilter('all');
     setSortBy('createdAt_desc');
+    setSelectedUsers(seedUsers.map((u) => u.id));
   }, []);
 
   // Filter & Sort Logic: Memoized to prevent redundant sorting calculations
@@ -68,6 +74,11 @@ export default function TasksPage() {
     // Status Filter
     if (statusFilter !== 'all') {
       result = result.filter((t) => t.status === statusFilter);
+    }
+
+    // Admin User Filter
+    if (isAdmin) {
+      result = result.filter((t) => selectedUsers.includes(t.ownerId));
     }
 
     // Search Filter
@@ -101,7 +112,7 @@ export default function TasksPage() {
     });
 
     return result;
-  }, [tasks, statusFilter, debouncedSearch, sortBy]);
+  }, [tasks, statusFilter, isAdmin, selectedUsers, debouncedSearch, sortBy]);
 
   // stable callback to open form for creating task
   const handleOpenCreate = useCallback(() => {
@@ -182,7 +193,10 @@ export default function TasksPage() {
       });
   }, [dispatch, deletingTaskId, showNotification]);
 
-  const hasActiveFilters = search !== '' || statusFilter !== 'all';
+  const hasActiveFilters =
+    search !== '' ||
+    statusFilter !== 'all' ||
+    (isAdmin && selectedUsers.length !== seedUsers.length);
 
   return (
     <Box>
@@ -258,6 +272,9 @@ export default function TasksPage() {
         onSearchChange={setSearch}
         sortBy={sortBy}
         onSortByChange={setSortBy}
+        isAdmin={isAdmin}
+        selectedUsers={selectedUsers}
+        onSelectedUsersChange={setSelectedUsers}
       />
 
       {status === 'loading' && tasks.length === 0 ? (
