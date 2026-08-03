@@ -67,6 +67,17 @@ export default function TasksPage() {
     setSelectedUsers(seedUsers.map((u) => u.id));
   }, []);
 
+  // Compute counts for each status based on current user scope (e.g. filtered by selected users for Admin)
+  const tabCounts = useMemo(() => {
+    const scopeTasks = isAdmin ? tasks.filter((t) => selectedUsers.includes(t.ownerId)) : tasks;
+    return {
+      all: scopeTasks.length,
+      pending: scopeTasks.filter((t) => t.status === 'pending').length,
+      'in-progress': scopeTasks.filter((t) => t.status === 'in-progress').length,
+      completed: scopeTasks.filter((t) => t.status === 'completed').length,
+    };
+  }, [tasks, isAdmin, selectedUsers]);
+
   // Filter & Sort Logic: Memoized to prevent redundant sorting calculations
   const filteredTasks = useMemo(() => {
     let result = [...tasks];
@@ -257,14 +268,26 @@ export default function TasksPage() {
         scrollButtons="auto"
         sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}
       >
-        <Tab label="All" value="all" sx={{ fontWeight: 600, textTransform: 'none' }} />
-        <Tab label="TODO" value="pending" sx={{ fontWeight: 600, textTransform: 'none' }} />
         <Tab
-          label="In Progress"
+          label={`All (${tabCounts.all})`}
+          value="all"
+          sx={{ fontWeight: 600, textTransform: 'none' }}
+        />
+        <Tab
+          label={`TODO (${tabCounts.pending})`}
+          value="pending"
+          sx={{ fontWeight: 600, textTransform: 'none' }}
+        />
+        <Tab
+          label={`In Progress (${tabCounts['in-progress']})`}
           value="in-progress"
           sx={{ fontWeight: 600, textTransform: 'none' }}
         />
-        <Tab label="Completed" value="completed" sx={{ fontWeight: 600, textTransform: 'none' }} />
+        <Tab
+          label={`Completed (${tabCounts.completed})`}
+          value="completed"
+          sx={{ fontWeight: 600, textTransform: 'none' }}
+        />
       </Tabs>
 
       <TaskFilters
