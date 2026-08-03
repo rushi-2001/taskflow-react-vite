@@ -12,10 +12,6 @@ import SearchIcon from '@mui/icons-material/Search';
 interface TaskFiltersProps {
   search: string;
   onSearchChange: (val: string) => void;
-  status: string;
-  onStatusChange: (val: string) => void;
-  priority: string;
-  onPriorityChange: (val: string) => void;
   sortBy: string;
   onSortByChange: (val: string) => void;
 }
@@ -23,10 +19,6 @@ interface TaskFiltersProps {
 export default function TaskFilters({
   search,
   onSearchChange,
-  status,
-  onStatusChange,
-  priority,
-  onPriorityChange,
   sortBy,
   onSortByChange,
 }: TaskFiltersProps) {
@@ -61,36 +53,6 @@ export default function TaskFilters({
         sx={{ flexGrow: 1, minWidth: '200px' }}
       />
 
-      <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel id="status-filter-label">Status</InputLabel>
-        <Select
-          labelId="status-filter-label"
-          value={status}
-          label="Status"
-          onChange={(e) => onStatusChange(e.target.value)}
-        >
-          <MenuItem value="all">All Statuses</MenuItem>
-          <MenuItem value="pending">Pending</MenuItem>
-          <MenuItem value="in-progress">In Progress</MenuItem>
-          <MenuItem value="completed">Completed</MenuItem>
-        </Select>
-      </FormControl>
-
-      <FormControl size="small" sx={{ minWidth: 150 }}>
-        <InputLabel id="priority-filter-label">Priority</InputLabel>
-        <Select
-          labelId="priority-filter-label"
-          value={priority}
-          label="Priority"
-          onChange={(e) => onPriorityChange(e.target.value)}
-        >
-          <MenuItem value="all">All Priorities</MenuItem>
-          <MenuItem value="low">Low</MenuItem>
-          <MenuItem value="medium">Medium</MenuItem>
-          <MenuItem value="high">High</MenuItem>
-        </Select>
-      </FormControl>
-
       <FormControl size="small" sx={{ minWidth: 180 }}>
         <InputLabel id="sort-by-label">Sort By</InputLabel>
         <Select
@@ -103,7 +65,6 @@ export default function TaskFilters({
           <MenuItem value="createdAt_asc">Oldest First</MenuItem>
           <MenuItem value="dueDate_asc">Due Date (Soonest)</MenuItem>
           <MenuItem value="dueDate_desc">Due Date (Latest)</MenuItem>
-          <MenuItem value="priority_desc">Priority (High to Low)</MenuItem>
         </Select>
       </FormControl>
     </Box>

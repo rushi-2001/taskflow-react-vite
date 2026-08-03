@@ -6,16 +6,11 @@ import {
   DialogActions,
   Button,
   TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
   CircularProgress,
-  FormHelperText,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { taskValidationSchema } from './taskValidationSchema';
-import type { Task, TaskDraft, TaskPriority } from '@/types/task.types';
+import type { Task, TaskDraft } from '@/types/task.types';
 
 interface TaskFormDialogProps {
   open: boolean;
@@ -36,7 +31,6 @@ export default function TaskFormDialog({
     initialValues: {
       title: '',
       description: '',
-      priority: 'medium',
       dueDate: '',
     },
     validationSchema: taskValidationSchema,
@@ -44,7 +38,6 @@ export default function TaskFormDialog({
       const payload: TaskDraft = {
         title: values.title,
         description: values.description,
-        priority: values.priority as TaskPriority,
         dueDate: values.dueDate ? values.dueDate : undefined,
       };
       onSubmit(payload);
@@ -57,7 +50,6 @@ export default function TaskFormDialog({
         formik.setValues({
           title: task.title,
           description: task.description,
-          priority: task.priority,
           dueDate: task.dueDate ? task.dueDate.split('T')[0] : '',
         });
       } else {
@@ -106,24 +98,7 @@ export default function TaskFormDialog({
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
           />
-          <FormControl fullWidth error={formik.touched.priority && Boolean(formik.errors.priority)}>
-            <InputLabel id="dialog-priority-label">Priority *</InputLabel>
-            <Select
-              labelId="dialog-priority-label"
-              name="priority"
-              label="Priority *"
-              value={formik.values.priority}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <MenuItem value="low">Low</MenuItem>
-              <MenuItem value="medium">Medium</MenuItem>
-              <MenuItem value="high">High</MenuItem>
-            </Select>
-            {formik.touched.priority && formik.errors.priority && (
-              <FormHelperText>{formik.errors.priority}</FormHelperText>
-            )}
-          </FormControl>
+
           <TextField
             name="dueDate"
             label="Due Date"

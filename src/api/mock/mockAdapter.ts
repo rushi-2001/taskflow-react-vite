@@ -96,7 +96,7 @@ export function bootstrapMockApi() {
     try {
       const data = JSON.parse(config.data || '{}');
 
-      if (!data.title || !data.description || !data.priority) {
+      if (!data.title || !data.description) {
         return [400, { message: 'Missing required task fields.' }];
       }
 
@@ -105,7 +105,6 @@ export function bootstrapMockApi() {
         title: data.title,
         description: data.description,
         status: data.status || 'pending',
-        priority: data.priority,
         ownerId: user.role === 'admin' && data.ownerId ? data.ownerId : user.id,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -155,7 +154,6 @@ export function bootstrapMockApi() {
         title: data.title !== undefined ? data.title : task.title,
         description: data.description !== undefined ? data.description : task.description,
         status: data.status !== undefined ? data.status : task.status,
-        priority: data.priority !== undefined ? data.priority : task.priority,
         dueDate: data.dueDate !== undefined ? data.dueDate : task.dueDate,
         updatedAt: new Date().toISOString(),
       };

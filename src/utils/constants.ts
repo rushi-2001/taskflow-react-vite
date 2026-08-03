@@ -1,9 +1,3 @@
-export const PRIORITY_RANKS = {
-  high: 3,
-  medium: 2,
-  low: 1,
-};
-
 export const DEMO_CREDENTIALS = {
   admin: {
     email: 'admin@taskflow.com',

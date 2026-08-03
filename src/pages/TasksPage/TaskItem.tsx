@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import dayjs from 'dayjs';
 import StatusChip from '@/components/common/StatusChip';
 import type { Task } from '@/types/task.types';
 
@@ -14,8 +15,6 @@ interface TaskItemProps {
   onToggleStatus: (id: string, currentStatus: Task['status']) => void;
 }
 
-// React.memo optimization: Prevents re-rendering this individual item
-// when other unrelated items or filter parameters change in the parent view.
 export const TaskItem = React.memo(function TaskItem({
   task,
   onEdit,
@@ -26,10 +25,9 @@ export const TaskItem = React.memo(function TaskItem({
 
   const checkIsOverdue = () => {
     if (isCompleted || !task.dueDate) return false;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const due = new Date(task.dueDate);
-    return due < today;
+    const today = dayjs().startOf('day');
+    const due = dayjs(task.dueDate).startOf('day');
+    return due.isBefore(today);
   };
 
   const overdue = checkIsOverdue();
@@ -44,9 +42,8 @@ export const TaskItem = React.memo(function TaskItem({
           transform: 'translateY(-2px)',
           boxShadow: '0 6px 20px rgba(0,0,0,0.06)',
         },
-        borderLeft: '4px solid',
-        borderLeftColor:
-          task.priority === 'high' ? '#ef4444' : task.priority === 'medium' ? '#f59e0b' : '#0284c7',
+        border: '1px solid',
+        borderColor: 'divider',
       }}
     >
       <CardContent sx={{ py: '16px !important', px: 2 }}>
@@ -94,8 +91,7 @@ export const TaskItem = React.memo(function TaskItem({
                 alignItems: 'center',
               }}
             >
-              <StatusChip type="status" value={task.status} />
-              <StatusChip type="priority" value={task.priority} />
+              <StatusChip value={task.status} />
 
               {task.dueDate && (
                 <Box
@@ -116,7 +112,7 @@ export const TaskItem = React.memo(function TaskItem({
                     <CalendarMonthIcon fontSize="inherit" />
                   )}
                   <span>
-                    Due: {task.dueDate} {overdue && '(Overdue)'}
+                    Due: {dayjs(task.dueDate).format('DD MMM YY')} {overdue && '(Overdue)'}
                   </span>
                 </Box>
               )}

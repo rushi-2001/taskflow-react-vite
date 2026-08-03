@@ -81,7 +81,7 @@ export default function LoginPage() {
             Welcome to TaskFlow
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
-            Manage your project tasks efficiently with roles and priority metrics.
+            Manage your project tasks efficiently with roles and status metrics.
           </Typography>
           <LoginForm onSubmit={handleLoginSubmit} isLoading={status === 'loading'} error={error} />
         </Card>

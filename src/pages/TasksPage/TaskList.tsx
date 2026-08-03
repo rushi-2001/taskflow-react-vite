@@ -26,7 +26,7 @@ export default function TaskList({
         title={isFiltered ? 'No matching tasks' : 'No tasks created yet'}
         description={
           isFiltered
-            ? 'Try adjusting your search query, priority, or status filters.'
+            ? 'Try adjusting your search query or status tab filters.'
             : 'Click on "Create Task" above to add your first work item.'
         }
         icon={<AssignmentIcon sx={{ fontSize: 60, color: 'text.secondary', opacity: 0.5 }} />}

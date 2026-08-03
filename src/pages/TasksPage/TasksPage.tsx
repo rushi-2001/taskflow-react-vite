@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { Box, Typography, Button, Alert } from '@mui/material';
+import { Box, Typography, Button, Alert, Tabs, Tab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import {
@@ -31,7 +31,6 @@ export default function TasksPage() {
   // Filters state
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [priorityFilter, setPriorityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt_desc');
 
   // Dialogs state
@@ -59,7 +58,6 @@ export default function TasksPage() {
   const handleClearFilters = useCallback(() => {
     setSearch('');
     setStatusFilter('all');
-    setPriorityFilter('all');
     setSortBy('createdAt_desc');
   }, []);
 
@@ -70,11 +68,6 @@ export default function TasksPage() {
     // Status Filter
     if (statusFilter !== 'all') {
       result = result.filter((t) => t.status === statusFilter);
-    }
-
-    // Priority Filter
-    if (priorityFilter !== 'all') {
-      result = result.filter((t) => t.priority === priorityFilter);
     }
 
     // Search Filter
@@ -102,17 +95,13 @@ export default function TasksPage() {
           if (!b.dueDate) return -1;
           return new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
         }
-        case 'priority_desc': {
-          const ranks = { high: 3, medium: 2, low: 1 };
-          return ranks[b.priority] - ranks[a.priority];
-        }
         default:
           return 0;
       }
     });
 
     return result;
-  }, [tasks, statusFilter, priorityFilter, debouncedSearch, sortBy]);
+  }, [tasks, statusFilter, debouncedSearch, sortBy]);
 
   // stable callback to open form for creating task
   const handleOpenCreate = useCallback(() => {
@@ -193,7 +182,7 @@ export default function TasksPage() {
       });
   }, [dispatch, deletingTaskId, showNotification]);
 
-  const hasActiveFilters = search !== '' || statusFilter !== 'all' || priorityFilter !== 'all';
+  const hasActiveFilters = search !== '' || statusFilter !== 'all';
 
   return (
     <Box>
@@ -244,13 +233,29 @@ export default function TasksPage() {
         </Alert>
       )}
 
+      {/* Tabs View for Status */}
+      <Tabs
+        value={statusFilter}
+        onChange={(_, newValue) => setStatusFilter(newValue)}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="scrollable"
+        scrollButtons="auto"
+        sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}
+      >
+        <Tab label="All" value="all" sx={{ fontWeight: 600, textTransform: 'none' }} />
+        <Tab label="TODO" value="pending" sx={{ fontWeight: 600, textTransform: 'none' }} />
+        <Tab
+          label="In Progress"
+          value="in-progress"
+          sx={{ fontWeight: 600, textTransform: 'none' }}
+        />
+        <Tab label="Completed" value="completed" sx={{ fontWeight: 600, textTransform: 'none' }} />
+      </Tabs>
+
       <TaskFilters
         search={search}
         onSearchChange={setSearch}
-        status={statusFilter}
-        onStatusChange={setStatusFilter}
-        priority={priorityFilter}
-        onPriorityChange={setPriorityFilter}
         sortBy={sortBy}
         onSortByChange={setSortBy}
       />
