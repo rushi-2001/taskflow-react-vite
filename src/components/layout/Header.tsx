@@ -41,14 +41,13 @@ export default function Header() {
   return (
     <AppBar
       position="fixed"
+      elevation={0}
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        background: 'rgba(255, 255, 255, 0.8)',
-        backdropFilter: 'blur(8px)',
+        bgcolor: 'background.paper',
         borderBottom: '1px solid',
         borderColor: 'divider',
         color: 'text.primary',
-        boxShadow: 'none',
       }}
     >
       <Toolbar>
@@ -67,11 +66,8 @@ export default function Header() {
           noWrap
           component="div"
           sx={{
-            fontWeight: 800,
-            letterSpacing: '-0.02em',
-            background: 'linear-gradient(45deg, #aa3bff 30%, #c084fc 90%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            fontWeight: 700,
+            color: 'primary.main',
           }}
         >
           TaskFlow
@@ -108,8 +104,7 @@ export default function Header() {
               slotProps={{
                 paper: {
                   sx: {
-                    borderRadius: 2,
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                    borderRadius: 1.5,
                     mt: 1.5,
                   },
                 },

@@ -48,10 +48,6 @@ export default function LoginPage() {
           sx={{
             p: 4,
             width: '100%',
-            borderRadius: 4,
-            boxShadow: '0 8px 32px 0 rgba(170, 59, 255, 0.08)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -59,17 +55,17 @@ export default function LoginPage() {
         >
           <Box
             sx={{
-              width: 50,
-              height: 50,
-              borderRadius: '50%',
-              background: 'linear-gradient(45deg, #aa3bff 30%, #c084fc 90%)',
+              width: 48,
+              height: 48,
+              borderRadius: 2,
+              bgcolor: 'primary.main',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               mb: 2,
             }}
           >
-            <Typography variant="h5" sx={{ color: '#fff', fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700 }}>
               TF
             </Typography>
           </Box>

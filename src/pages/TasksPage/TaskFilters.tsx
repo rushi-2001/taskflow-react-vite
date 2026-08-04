@@ -40,7 +40,7 @@ export default function TaskFilters({
         gap: 2,
         mb: 3,
         p: 2,
-        borderRadius: 3,
+        borderRadius: 2,
         bgcolor: 'background.paper',
         border: '1px solid',
         borderColor: 'divider',

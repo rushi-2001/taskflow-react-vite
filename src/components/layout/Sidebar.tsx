@@ -60,19 +60,20 @@ export default function Sidebar() {
             return (
               <ListItem key={item.text} disablePadding sx={{ px: 1.5, py: 0.5 }}>
                 <ListItemButton
+                  selected={active}
                   onClick={() => handleNavigation(item.path)}
                   sx={{
-                    borderRadius: 2,
-                    backgroundColor: active ? 'primary.main' : 'transparent',
-                    color: active ? 'primary.contrastText' : 'text.secondary',
-                    '&:hover': {
-                      backgroundColor: active ? 'primary.main' : 'rgba(170, 59, 255, 0.08)',
-                      color: active ? 'primary.contrastText' : 'primary.main',
+                    borderRadius: 1.5,
+                    '&.Mui-selected': {
+                      backgroundColor: 'primary.main',
+                      color: 'primary.contrastText',
+                      '&:hover': {
+                        backgroundColor: 'primary.dark',
+                      },
                       '& .MuiListItemIcon-root': {
-                        color: active ? 'primary.contrastText' : 'primary.main',
+                        color: 'primary.contrastText',
                       },
                     },
-                    transition: 'all 0.2s',
                   }}
                 >
                   <ListItemIcon

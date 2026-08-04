@@ -17,7 +17,6 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Bootstrap initial state from localStorage
 const storedUser = localStorage.getItem('taskflow_user');
 if (storedUser) {
   try {

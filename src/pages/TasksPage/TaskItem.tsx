@@ -36,14 +36,7 @@ export const TaskItem = React.memo(function TaskItem({
     <Card
       sx={{
         mb: 2,
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        opacity: isCompleted ? 0.8 : 1,
-        '&:hover': {
-          transform: 'translateY(-2px)',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.06)',
-        },
-        border: '1px solid',
-        borderColor: 'divider',
+        opacity: isCompleted ? 0.75 : 1,
       }}
     >
       <CardContent sx={{ py: '16px !important', px: 2 }}>

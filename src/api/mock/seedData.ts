@@ -18,7 +18,6 @@ export const seedUsers = [
   },
 ];
 
-// Helper to generate ISO dates relative to now
 const getDateDaysAgo = (days: number): string => {
   const date = new Date();
   date.setDate(date.getDate() - days);
@@ -70,7 +69,7 @@ export const seedTasks: Task[] = [
     ownerId: 'u2',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    dueDate: getDateDaysAgo(1), // Overdue!
+    dueDate: getDateDaysAgo(1),
   },
   {
     id: 't5',

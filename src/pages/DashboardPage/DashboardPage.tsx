@@ -41,10 +41,7 @@ export default function DashboardPage() {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
-        >
+        <Typography variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
           Dashboard Overview
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -52,15 +49,12 @@ export default function DashboardPage() {
         </Typography>
       </Box>
 
-      {/* 5 Status Cards */}
       <StatsOverview stats={stats} />
 
-      {/* Status Breakdown Chart */}
       <Box sx={{ mb: 4 }}>
         <TaskStatusChart data={chartData} />
       </Box>
 
-      {/* Admin view only table */}
       {isAdmin && <UserBreakdownTable tasks={tasks} />}
     </Box>
   );

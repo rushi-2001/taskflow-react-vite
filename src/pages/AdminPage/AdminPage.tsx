@@ -17,10 +17,7 @@ export default function AdminPage() {
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
-        >
+        <Typography variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
           Admin Panel
         </Typography>
         <Typography variant="body2" color="text.secondary">

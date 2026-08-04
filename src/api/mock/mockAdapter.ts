@@ -3,26 +3,43 @@ import { axiosClient } from '../axiosClient';
 import { seedUsers, seedTasks } from './seedData';
 import type { Task } from '@/types/task.types';
 
-export function bootstrapMockApi() {
-  const mock = new MockAdapter(axiosClient, { delayResponse: 500 });
+// Helper to safely extract payload whether passed as an object or JSON string
+function parsePayload<T extends Record<string, unknown>>(data: unknown): Partial<T> {
+  if (!data) return {};
+  if (typeof data === 'object' && data !== null) return data as Partial<T>;
+  if (typeof data === 'string') {
+    try {
+      return JSON.parse(data) as Partial<T>;
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
 
-  // In-memory data store for tasks (clears on page reload)
+export function bootstrapMockApi() {
+  const mock = new MockAdapter(axiosClient, { delayResponse: 300 });
+
   let mockTasks: Task[] = [...seedTasks];
 
-  // Helper to extract user from Authorization header
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getAuthUser = (headers: any) => {
+  const getAuthUser = (headers: Record<string, unknown> | undefined) => {
     let authHeader: unknown = null;
     if (headers) {
       if (typeof headers.get === 'function') {
-        authHeader = headers.get('Authorization') || headers.get('authorization');
+        authHeader =
+          (headers as { get: (k: string) => unknown }).get('Authorization') ||
+          (headers as { get: (k: string) => unknown }).get('authorization');
       } else {
-        authHeader = headers.Authorization || headers.authorization;
+        authHeader =
+          headers.Authorization ||
+          headers.authorization ||
+          headers['Authorization'] ||
+          headers['authorization'];
       }
     }
     if (!authHeader || typeof authHeader !== 'string') return null;
 
-    const token = authHeader.replace('Bearer ', '').trim();
+    const token = authHeader.replace(/^Bearer\s+/i, '').trim();
     if (!token.startsWith('mock_token_for_')) return null;
 
     const userId = token.replace('mock_token_for_', '');
@@ -30,29 +47,24 @@ export function bootstrapMockApi() {
     return user || null;
   };
 
-  // Helper to inject random failure (5% chance)
-  const shouldFailRandomly = (chance = 0.05): boolean => {
-    return Math.random() < chance;
-  };
-
-  // --- AUTH LOGIN ---
   mock.onPost('/auth/login').reply((config) => {
-    if (shouldFailRandomly()) {
-      return [500, { message: 'Internal server error: Simulated transient API failure.' }];
-    }
-
     try {
-      const { email, password } = JSON.parse(config.data || '{}');
+      const data = parsePayload<{ email?: string; password?: string }>(config.data);
+      const { email, password } = data;
+
+      if (!email || !password) {
+        return [400, { message: 'Email and password are required.' }];
+      }
+
       const user = seedUsers.find((u) => u.email === email && u.password === password);
 
       if (!user) {
         return [401, { message: 'Invalid email or password.' }];
       }
 
-      // Return user profile and a simulated token
       const token = `mock_token_for_${user.id}`;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password: _, ...userWithoutPassword } = user;
+      const { id, name, role } = user;
+      const userWithoutPassword = { id, name, email: user.email, role };
 
       return [
         200,
@@ -66,14 +78,12 @@ export function bootstrapMockApi() {
     }
   });
 
-  // --- GET TASKS ---
   mock.onGet('/tasks').reply((config) => {
-    const user = getAuthUser(config.headers);
+    const user = getAuthUser(config.headers as Record<string, unknown>);
     if (!user) {
       return [401, { message: 'Unauthorized. Token missing or invalid.' }];
     }
 
-    // Filter by role/ownerId
     let userTasks = mockTasks;
     if (user.role !== 'admin') {
       userTasks = mockTasks.filter((t) => t.ownerId === user.id);
@@ -82,26 +92,21 @@ export function bootstrapMockApi() {
     return [200, userTasks];
   });
 
-  // --- CREATE TASK ---
   mock.onPost('/tasks').reply((config) => {
-    if (shouldFailRandomly(0.05)) {
-      return [500, { message: 'Failed to create task due to a simulated database lock.' }];
-    }
-
-    const user = getAuthUser(config.headers);
+    const user = getAuthUser(config.headers as Record<string, unknown>);
     if (!user) {
       return [401, { message: 'Unauthorized.' }];
     }
 
     try {
-      const data = JSON.parse(config.data || '{}');
+      const data = parsePayload<Partial<Task>>(config.data);
 
       if (!data.title || !data.description) {
         return [400, { message: 'Missing required task fields.' }];
       }
 
       const newTask: Task = {
-        id: `t_${Date.now()}`,
+        id: `t_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
         title: data.title,
         description: data.description,
         status: data.status || 'pending',
@@ -119,19 +124,13 @@ export function bootstrapMockApi() {
     }
   });
 
-  // --- UPDATE TASK ---
   mock.onPut(/\/tasks\/.*/).reply((config) => {
-    if (shouldFailRandomly(0.05)) {
-      return [500, { message: 'Simulated connection failure during update operation.' }];
-    }
-
-    const user = getAuthUser(config.headers);
+    const user = getAuthUser(config.headers as Record<string, unknown>);
     if (!user) {
       return [401, { message: 'Unauthorized.' }];
     }
 
-    // Extract taskId from URL like /tasks/t1
-    const urlParts = config.url?.split('/') || [];
+    const urlParts = config.url?.split('?')[0].split('/').filter(Boolean) || [];
     const taskId = urlParts[urlParts.length - 1];
 
     const taskIndex = mockTasks.findIndex((t) => t.id === taskId);
@@ -141,13 +140,12 @@ export function bootstrapMockApi() {
 
     const task = mockTasks[taskIndex];
 
-    // Check permissions: Standard user can only update their own tasks
     if (user.role !== 'admin' && task.ownerId !== user.id) {
       return [403, { message: 'Forbidden. You do not own this task.' }];
     }
 
     try {
-      const data = JSON.parse(config.data || '{}');
+      const data = parsePayload<Partial<Task>>(config.data);
 
       const updatedTask: Task = {
         ...task,
@@ -155,6 +153,7 @@ export function bootstrapMockApi() {
         description: data.description !== undefined ? data.description : task.description,
         status: data.status !== undefined ? data.status : task.status,
         dueDate: data.dueDate !== undefined ? data.dueDate : task.dueDate,
+        ownerId: user.role === 'admin' && data.ownerId !== undefined ? data.ownerId : task.ownerId,
         updatedAt: new Date().toISOString(),
       };
 
@@ -166,19 +165,13 @@ export function bootstrapMockApi() {
     }
   });
 
-  // --- DELETE TASK ---
   mock.onDelete(/\/tasks\/.*/).reply((config) => {
-    if (shouldFailRandomly(0.05)) {
-      return [500, { message: 'Simulated error deleting task.' }];
-    }
-
-    const user = getAuthUser(config.headers);
+    const user = getAuthUser(config.headers as Record<string, unknown>);
     if (!user) {
       return [401, { message: 'Unauthorized.' }];
     }
 
-    // Extract taskId from URL like /tasks/t1
-    const urlParts = config.url?.split('/') || [];
+    const urlParts = config.url?.split('?')[0].split('/').filter(Boolean) || [];
     const taskId = urlParts[urlParts.length - 1];
 
     const taskIndex = mockTasks.findIndex((t) => t.id === taskId);
@@ -188,7 +181,6 @@ export function bootstrapMockApi() {
 
     const task = mockTasks[taskIndex];
 
-    // Check permissions
     if (user.role !== 'admin' && task.ownerId !== user.id) {
       return [403, { message: "Forbidden. You cannot delete someone else's task." }];
     }
@@ -200,3 +192,5 @@ export function bootstrapMockApi() {
 
   return mock;
 }
+
+

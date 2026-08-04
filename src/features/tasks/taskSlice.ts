@@ -52,18 +52,17 @@ export const updateTask = createAsyncThunk<
   }
 });
 
-export const deleteTask = createAsyncThunk<
-  string, // Returns the ID of the deleted task
-  string,
-  { rejectValue: NormalizedApiError }
->('tasks/deleteTask', async (id, { rejectWithValue }) => {
-  try {
-    const res = await taskApi.deleteTask(id);
-    return res.id;
-  } catch (err) {
-    return rejectWithValue(err as NormalizedApiError);
+export const deleteTask = createAsyncThunk<string, string, { rejectValue: NormalizedApiError }>(
+  'tasks/deleteTask',
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await taskApi.deleteTask(id);
+      return res.id;
+    } catch (err) {
+      return rejectWithValue(err as NormalizedApiError);
+    }
   }
-});
+);
 
 const taskSlice = createSlice({
   name: 'tasks',

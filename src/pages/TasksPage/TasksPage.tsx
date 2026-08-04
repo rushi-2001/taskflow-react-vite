@@ -32,13 +32,11 @@ export default function TasksPage() {
 
   const isAdmin = currentUser?.role === 'admin';
 
-  // Filters state
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedUsers, setSelectedUsers] = useState<string[]>(() => seedUsers.map((u) => u.id));
   const [sortBy, setSortBy] = useState('createdAt_desc');
 
-  // Dialogs state
   const [formOpen, setFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
 
@@ -47,19 +45,16 @@ export default function TasksPage() {
 
   const debouncedSearch = useDebouncedValue(search, 300);
 
-  // Fetch tasks on load
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
-  // Clean error state on unmount
   useEffect(() => {
     return () => {
       dispatch(clearTaskError());
     };
   }, [dispatch]);
 
-  // Callback to clear all filters
   const handleClearFilters = useCallback(() => {
     setSearch('');
     setStatusFilter('all');
@@ -67,7 +62,6 @@ export default function TasksPage() {
     setSelectedUsers(seedUsers.map((u) => u.id));
   }, []);
 
-  // Compute counts for each status based on current user scope (e.g. filtered by selected users for Admin)
   const tabCounts = useMemo(() => {
     const scopeTasks = isAdmin ? tasks.filter((t) => selectedUsers.includes(t.ownerId)) : tasks;
     return {
@@ -78,21 +72,17 @@ export default function TasksPage() {
     };
   }, [tasks, isAdmin, selectedUsers]);
 
-  // Filter & Sort Logic: Memoized to prevent redundant sorting calculations
   const filteredTasks = useMemo(() => {
     let result = [...tasks];
 
-    // Status Filter
     if (statusFilter !== 'all') {
       result = result.filter((t) => t.status === statusFilter);
     }
 
-    // Admin User Filter
     if (isAdmin) {
       result = result.filter((t) => selectedUsers.includes(t.ownerId));
     }
 
-    // Search Filter
     if (debouncedSearch.trim() !== '') {
       const q = debouncedSearch.toLowerCase();
       result = result.filter(
@@ -100,7 +90,6 @@ export default function TasksPage() {
       );
     }
 
-    // Sorting
     result.sort((a, b) => {
       switch (sortBy) {
         case 'createdAt_desc':
@@ -125,25 +114,21 @@ export default function TasksPage() {
     return result;
   }, [tasks, statusFilter, isAdmin, selectedUsers, debouncedSearch, sortBy]);
 
-  // stable callback to open form for creating task
   const handleOpenCreate = useCallback(() => {
     setEditingTask(undefined);
     setFormOpen(true);
   }, []);
 
-  // stable callback to open form for editing task
   const handleOpenEdit = useCallback((task: Task) => {
     setEditingTask(task);
     setFormOpen(true);
   }, []);
 
-  // stable callback to trigger delete dialog
   const handleOpenDelete = useCallback((id: string) => {
     setDeletingTaskId(id);
     setDeleteOpen(true);
   }, []);
 
-  // quick toggle of completed status
   const handleToggleStatus = useCallback(
     (id: string, currentStatus: Task['status']) => {
       const nextStatus = currentStatus === 'completed' ? 'pending' : 'completed';
@@ -222,10 +207,7 @@ export default function TasksPage() {
         }}
       >
         <Box>
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 800, color: 'text.primary', letterSpacing: '-0.02em' }}
-          >
+          <Typography variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
             Project Tasks
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -233,16 +215,7 @@ export default function TasksPage() {
           </Typography>
         </Box>
         <Box>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleOpenCreate}
-            sx={{
-              fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(170, 59, 255, 0.2)',
-              borderRadius: 2,
-            }}
-          >
+          <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpenCreate}>
             Create Task
           </Button>
         </Box>
@@ -252,13 +225,12 @@ export default function TasksPage() {
         <Alert
           severity="error"
           onClose={() => dispatch(clearTaskError())}
-          sx={{ mb: 3, borderRadius: 2 }}
+          sx={{ mb: 3, borderRadius: 1 }}
         >
           {error}
         </Alert>
       )}
 
-      {/* Tabs View for Status */}
       <Tabs
         value={statusFilter}
         onChange={(_, newValue) => setStatusFilter(newValue)}
@@ -313,7 +285,6 @@ export default function TasksPage() {
         />
       )}
 
-      {/* Task Creation & Editing Dialog */}
       <TaskFormDialog
         open={formOpen}
         task={editingTask}
@@ -322,7 +293,6 @@ export default function TasksPage() {
         isLoading={status === 'loading'}
       />
 
-      {/* Delete Confirmation Dialog */}
       <ConfirmDialog
         open={deleteOpen}
         title="Delete Task"
@@ -334,3 +304,4 @@ export default function TasksPage() {
     </Box>
   );
 }
+

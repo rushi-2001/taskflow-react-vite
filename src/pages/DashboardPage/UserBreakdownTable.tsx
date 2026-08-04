@@ -43,14 +43,14 @@ export default function UserBreakdownTable({ tasks }: UserBreakdownTableProps) {
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
           User Assignment Breakdown
         </Typography>
-        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 3 }}>
-          Administrators only. Summarizing task volumes and execution status per employee.
+        <Typography variant="body2" color="text.secondary" sx={{ display: 'block', mb: 3 }}>
+          Summarizing task volumes and execution status per employee.
         </Typography>
 
         <TableContainer
           component={Paper}
           elevation={0}
-          sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2 }}
+          sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
         >
           <Table>
             <TableHead sx={{ bgcolor: '#f8fafc' }}>

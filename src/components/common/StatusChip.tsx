@@ -6,35 +6,31 @@ interface StatusChipProps {
 }
 
 export default function StatusChip({ value }: StatusChipProps) {
-  const getStyles = () => {
+  const getChipProps = () => {
     switch (value) {
       case 'completed':
-        return { bgcolor: '#dcfce7', color: '#16a34a', label: 'Completed' };
+        return { color: 'success' as const, label: 'Completed' };
       case 'in-progress':
-        return { bgcolor: '#ffedd5', color: '#ea580c', label: 'In Progress' };
+        return { color: 'warning' as const, label: 'In Progress' };
       case 'pending':
-        return { bgcolor: '#e2e8f0', color: '#475569', label: 'Pending' };
+        return { color: 'default' as const, label: 'Pending' };
       default:
-        return { bgcolor: '#f1f5f9', color: '#64748b', label: value };
+        return { color: 'default' as const, label: value };
     }
   };
 
-  const styles = getStyles();
+  const props = getChipProps();
 
   return (
     <Chip
-      label={styles.label}
+      {...props}
       size="small"
+      variant="outlined"
       sx={{
-        bgcolor: styles.bgcolor,
-        color: styles.color,
         fontWeight: 600,
         fontSize: '0.75rem',
-        borderRadius: '6px',
-        '& .MuiChip-label': { px: 1.2 },
-        border: 'none',
-        height: 24,
       }}
     />
   );
 }
+

@@ -5,7 +5,7 @@ interface TaskStatusChartProps {
   data: { name: string; value: number }[];
 }
 
-const COLORS = ['#16a34a', '#ea580c', '#475569'];
+const COLORS = ['#2e7d32', '#ed6c02', '#475569'];
 
 export default function TaskStatusChart({ data }: TaskStatusChartProps) {
   const hasData = data.some((item) => item.value > 0);
@@ -13,10 +13,10 @@ export default function TaskStatusChart({ data }: TaskStatusChartProps) {
   return (
     <Card sx={{ height: 350, display: 'flex', flexDirection: 'column' }}>
       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
           Task Status Breakdown
         </Typography>
-        <Typography variant="caption" color="text.secondary" sx={{ mb: 2 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Visualizing current tasks grouped by execution status.
         </Typography>
 
@@ -49,7 +49,6 @@ export default function TaskStatusChart({ data }: TaskStatusChartProps) {
                   contentStyle={{
                     borderRadius: 8,
                     border: '1px solid #e2e8f0',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                   }}
                 />
                 <Legend verticalAlign="bottom" height={36} iconType="circle" />

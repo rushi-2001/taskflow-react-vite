@@ -44,33 +44,24 @@ export default function TaskFormDialog({
     },
   });
 
+  const { setValues, resetForm } = formik;
+
   useEffect(() => {
     if (open) {
       if (task) {
-        formik.setValues({
+        setValues({
           title: task.title,
           description: task.description,
           dueDate: task.dueDate ? task.dueDate.split('T')[0] : '',
         });
       } else {
-        formik.resetForm();
+        resetForm();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, task]);
+  }, [open, task, setValues, resetForm]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={isLoading ? undefined : onClose}
-      fullWidth
-      maxWidth="sm"
-      slotProps={{
-        paper: {
-          sx: { borderRadius: 3 },
-        },
-      }}
-    >
+    <Dialog open={open} onClose={isLoading ? undefined : onClose} fullWidth maxWidth="sm">
       <DialogTitle sx={{ fontWeight: 700 }}>{task ? 'Edit Task' : 'Create New Task'}</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
@@ -116,7 +107,7 @@ export default function TaskFormDialog({
           <Button onClick={onClose} disabled={isLoading} variant="text" color="inherit">
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading} variant="contained" sx={{ fontWeight: 600 }}>
+          <Button type="submit" disabled={isLoading} variant="contained">
             {isLoading ? (
               <CircularProgress size={24} color="inherit" />
             ) : task ? (
