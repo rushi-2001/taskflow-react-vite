@@ -25,7 +25,7 @@ export const theme = createTheme({
     divider: '#e2e8f0',
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Lato", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
       fontWeight: 700,
     },
