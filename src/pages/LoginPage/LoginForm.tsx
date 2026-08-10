@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField, Button, Box, Alert, CircularProgress } from '@mui/material';
 import { loginValidationSchema } from './loginValidationSchema';
@@ -7,9 +8,15 @@ interface LoginFormProps {
   onSubmit: (values: AuthCredentials) => void;
   isLoading: boolean;
   error: string | null;
+  credentialsToFill?: AuthCredentials | null;
 }
 
-export default function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
+export default function LoginForm({
+  onSubmit,
+  isLoading,
+  error,
+  credentialsToFill,
+}: LoginFormProps) {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -20,6 +27,17 @@ export default function LoginForm({ onSubmit, isLoading, error }: LoginFormProps
       onSubmit(values);
     },
   });
+
+  const { setValues } = formik;
+
+  useEffect(() => {
+    if (credentialsToFill) {
+      setValues({
+        email: credentialsToFill.email,
+        password: credentialsToFill.password,
+      });
+    }
+  }, [credentialsToFill, setValues]);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>

@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Card, Typography, Container } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { login, clearError } from '@/features/auth/authSlice';
 import LoginForm from './LoginForm';
+import DevCredentialsInfo from './DevCredentialsInfo';
 import type { AuthCredentials } from '@/types/user.types';
 
 export default function LoginPage() {
@@ -11,6 +12,8 @@ export default function LoginPage() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { user, status, error } = useAppSelector((state) => state.auth);
+
+  const [credentialsToFill, setCredentialsToFill] = useState<AuthCredentials | null>(null);
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
@@ -28,6 +31,10 @@ export default function LoginPage() {
 
   const handleLoginSubmit = (credentials: AuthCredentials) => {
     dispatch(login(credentials));
+  };
+
+  const handleFillCredentials = (email: string, password: string) => {
+    setCredentialsToFill({ email, password });
   };
 
   return (
@@ -51,8 +58,13 @@ export default function LoginPage() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            position: 'relative',
           }}
         >
+          <Box sx={{ position: 'absolute', top: 12, right: 12 }}>
+            <DevCredentialsInfo onFillCredentials={handleFillCredentials} />
+          </Box>
+
           <Box
             sx={{
               width: 48,
@@ -79,7 +91,12 @@ export default function LoginPage() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
             Manage your project tasks efficiently with roles and status metrics.
           </Typography>
-          <LoginForm onSubmit={handleLoginSubmit} isLoading={status === 'loading'} error={error} />
+          <LoginForm
+            onSubmit={handleLoginSubmit}
+            isLoading={status === 'loading'}
+            error={error}
+            credentialsToFill={credentialsToFill}
+          />
         </Card>
       </Box>
     </Container>
