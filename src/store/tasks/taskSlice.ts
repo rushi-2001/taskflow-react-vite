@@ -1,8 +1,6 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import type { Task, TaskDraft } from '@/types/task.types';
-import * as taskApi from '@/api/taskApi';
-import type { NormalizedApiError } from '@/types/api.types';
-import type { RootState } from '@/app/store';
+import { createSlice } from '@reduxjs/toolkit';
+import type { Task } from '@/types/task.types';
+import { fetchTasks, createTask, updateTask, deleteTask } from './task.actions';
 
 interface TaskState {
   items: Task[];
@@ -15,54 +13,6 @@ const initialState: TaskState = {
   status: 'idle',
   error: null,
 };
-
-// --- ASYNC THUNKS ---
-
-export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: NormalizedApiError }>(
-  'tasks/fetchTasks',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await taskApi.fetchTasks();
-    } catch (err) {
-      return rejectWithValue(err as NormalizedApiError);
-    }
-  }
-);
-
-export const createTask = createAsyncThunk<Task, TaskDraft, { rejectValue: NormalizedApiError }>(
-  'tasks/createTask',
-  async (draft, { rejectWithValue }) => {
-    try {
-      return await taskApi.createTask(draft);
-    } catch (err) {
-      return rejectWithValue(err as NormalizedApiError);
-    }
-  }
-);
-
-export const updateTask = createAsyncThunk<
-  Task,
-  { id: string; updates: Partial<Task> },
-  { rejectValue: NormalizedApiError }
->('tasks/updateTask', async ({ id, updates }, { rejectWithValue }) => {
-  try {
-    return await taskApi.updateTask(id, updates);
-  } catch (err) {
-    return rejectWithValue(err as NormalizedApiError);
-  }
-});
-
-export const deleteTask = createAsyncThunk<string, string, { rejectValue: NormalizedApiError }>(
-  'tasks/deleteTask',
-  async (id, { rejectWithValue }) => {
-    try {
-      const res = await taskApi.deleteTask(id);
-      return res.id;
-    } catch (err) {
-      return rejectWithValue(err as NormalizedApiError);
-    }
-  }
-);
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -133,25 +83,5 @@ const taskSlice = createSlice({
 });
 
 export const { clearTaskError } = taskSlice.actions;
-
-// --- SELECTORS ---
-
-export const selectAllTasks = (state: RootState) => state.tasks.items;
-export const selectTasksStatus = (state: RootState) => state.tasks.status;
-export const selectTasksError = (state: RootState) => state.tasks.error;
-
-export const selectTaskStats = createSelector([selectAllTasks], (tasks) => {
-  const total = tasks.length;
-  const completed = tasks.filter((t) => t.status === 'completed').length;
-  const pending = tasks.filter((t) => t.status === 'pending').length;
-  const inProgress = tasks.filter((t) => t.status === 'in-progress').length;
-
-  const todayStr = new Date().toISOString().split('T')[0];
-  const overdue = tasks.filter(
-    (t) => t.status !== 'completed' && t.dueDate && t.dueDate < todayStr
-  ).length;
-
-  return { total, completed, pending, inProgress, overdue };
-});
-
+export { fetchTasks, createTask, updateTask, deleteTask } from './task.actions';
 export default taskSlice.reducer;

@@ -15,7 +15,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useUI } from '@/context/UIContext';
-import { useAppSelector } from '@/app/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 

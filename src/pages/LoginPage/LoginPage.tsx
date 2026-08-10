@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Card, Typography, Container } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { login, clearError } from '@/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { login } from '@/store/auth/auth.actions';
+import { clearError } from '@/store/auth/authSlice';
 import LoginForm from './LoginForm';
 import DevCredentialsInfo from './DevCredentialsInfo';
 import type { AuthCredentials } from '@/types/user.types';

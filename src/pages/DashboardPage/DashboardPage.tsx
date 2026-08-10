@@ -1,12 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import {
-  fetchTasks,
-  selectAllTasks,
-  selectTaskStats,
-  selectTasksStatus,
-} from '@/features/tasks/taskSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchTasks } from '@/store/tasks/task.actions';
+import { selectAllTasks, selectTaskStats, selectTasksStatus } from '@/store/tasks/task.selectors';
 import StatsOverview from './StatsOverview';
 import TaskStatusChart from './TaskStatusChart';
 import UserBreakdownTable from './UserBreakdownTable';

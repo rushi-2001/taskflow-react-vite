@@ -1,5 +1,5 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
-import { useAppSelector } from '@/app/hooks';
+import { useAppSelector } from '@/store/hooks';
 
 export default function ProtectedRoute() {
   const { user } = useAppSelector((state) => state.auth);

@@ -2,6 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { axiosClient } from '../axiosClient';
 import { seedUsers, seedTasks } from './seedData';
 import type { Task } from '@/types/task.types';
+import { generateId } from '@/utils/idUtils';
 
 // Helper to safely extract payload whether passed as an object or JSON string
 function parsePayload<T extends Record<string, unknown>>(data: unknown): Partial<T> {
@@ -106,7 +107,7 @@ export function bootstrapMockApi() {
       }
 
       const newTask: Task = {
-        id: `t_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        id: generateId('t'),
         title: data.title,
         description: data.description,
         status: data.status || 'pending',
@@ -192,5 +193,3 @@ export function bootstrapMockApi() {
 
   return mock;
 }
-
-

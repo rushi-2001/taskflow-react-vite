@@ -50,4 +50,3 @@ export default function StatCard({ title, value, icon, color = 'primary' }: Stat
     </Card>
   );
 }
-

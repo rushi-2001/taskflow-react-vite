@@ -3,7 +3,7 @@ import { useUI } from '@/context/UIContext';
 
 export default function AppSnackbar() {
   const { state, closeNotification } = useUI();
-  const current = state.snackbars[0];
+  const current = state.snackbars?.[0];
 
   if (!current) return null;
 

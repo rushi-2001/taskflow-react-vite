@@ -137,11 +137,10 @@ This table maps core React, Redux, and Web Development concepts to their exact i
 | **JSX & Component Hierarchy**              | [`src/components/layout/AppLayout.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/components/layout/AppLayout.tsx), [`src/pages/TasksPage/TasksPage.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TasksPage.tsx)                                                                                                        | Clean layout structure, modular single-responsibility components.                                     |
 | **Props & Component Interfaces**           | [`src/components/common/StatCard.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/components/common/StatCard.tsx), [`src/pages/TasksPage/TaskItem.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TaskItem.tsx)                                                                                                            | Explicit TypeScript interface definitions (`StatCardProps`, `TaskItemProps`).                         |
 | **`useState` & Local State**               | [`src/pages/LoginPage/DevCredentialsInfo.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/LoginPage/DevCredentialsInfo.tsx), [`src/pages/TasksPage/TasksPage.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TasksPage.tsx)                                                                                          | Modal visibility, popover anchor targets, dynamic form dialog controls.                               |
-| **`useEffect` & Side Effects**             | [`src/pages/TasksPage/TasksPage.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TasksPage.tsx), [`src/pages/DashboardPage/DashboardPage.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/DashboardPage/DashboardPage.tsx)                                                                                            | Automated task fetching on mount and criteria changes.                                                |
-| **Context API & `useReducer`**             | [`src/context/UIContext.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/context/UIContext.tsx)                                                                                                                                                                                                                                                                                   | Custom state reducer for sidebar toggling and toast snackbar message stack.                           |
-| **Redux Toolkit & Async Thunks**           | [`src/features/auth/authSlice.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/features/auth/authSlice.ts), [`src/features/tasks/taskSlice.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/features/tasks/taskSlice.ts)                                                                                                                      | Async thunks (`loginUser`, `fetchTasks`, `createTask`, `updateTask`, `deleteTask`).                   |
+| **Context API & `useReducer`**             | [`src/context/UIContext.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/context/UIContext.tsx), [`src/context/uiReducer.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/context/uiReducer.ts)                                                                                                                                              | Custom state reducer for sidebar toggling and toast snackbar message stack.                           |
+| **Redux Toolkit & Async Thunks**           | [`src/store/auth/authSlice.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/store/auth/authSlice.ts), [`src/store/tasks/taskSlice.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/store/tasks/taskSlice.ts)                                                                                                                                  | Async thunks (`login`, `fetchTasks`, `createTask`, `updateTask`, `deleteTask`).                       |
 | **Performance: `useMemo` & `useCallback`** | [`src/pages/TasksPage/TasksPage.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TasksPage.tsx), [`src/pages/TasksPage/TaskItem.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TaskItem.tsx)                                                                                                              | `React.memo` on `TaskItem`, `useCallback` on CRUD handlers, `useMemo` for heavy metrics calculations. |
-| **Custom Hooks**                           | [`src/hooks/useDebouncedValue.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/hooks/useDebouncedValue.ts), [`src/app/hooks.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/app/hooks.ts)                                                                                                                                                    | Custom debouncing hook for search queries; strongly typed `useAppDispatch` & `useAppSelector`.        |
+| **Custom Hooks**                           | [`src/hooks/useDebouncedValue.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/hooks/useDebouncedValue.ts), [`src/store/hooks.ts`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/store/hooks.ts)                                                                                                                                                | Custom debouncing hook for search queries; strongly typed `useAppDispatch` & `useAppSelector`.        |
 | **React Router & Route Guards**            | [`src/routes/AppRoutes.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/routes/AppRoutes.tsx), [`src/routes/ProtectedRoute.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/routes/ProtectedRoute.tsx), [`src/routes/RoleRoute.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/routes/RoleRoute.tsx) | Code splitting (`lazy`/`Suspense`), protected routes, role authorization guards (`RoleRoute`).        |
 | **Controlled Forms & Yup**                 | [`src/pages/LoginPage/LoginForm.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/LoginPage/LoginForm.tsx), [`src/pages/TasksPage/TaskFormDialog.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/TasksPage/TaskFormDialog.tsx)                                                                                                  | Formik forms integrated with Yup schemas (`loginValidationSchema`, `taskValidationSchema`).           |
 | **Data Visualization**                     | [`src/pages/DashboardPage/TaskStatusChart.tsx`](file:///Users/tirth_rushi/workspace/personal/xoriant/react-capstone-taskflow/src/pages/DashboardPage/TaskStatusChart.tsx)                                                                                                                                                                                                                                               | Custom tooltips, legends, responsive container pie chart using Recharts.                              |
@@ -186,11 +185,10 @@ TaskFlow is engineered to switch seamlessly between the **in-memory mock adapter
 
 ### Installation Steps
 
-1. **Clone the Repository**
+1. **Install the Project**
 
    ```bash
-   git clone https://github.com/rushi-2001/taskflow-react-vite.git
-   cd taskflow-react-vite
+   cd react-capstone-taskflow
    ```
 
 2. **Install Dependencies**
@@ -233,17 +231,12 @@ react-capstone-taskflow/
 │   │   ├── authApi.ts      # Authentication API service calls
 │   │   ├── axiosClient.ts  # Axios client configuration & interceptors
 │   │   └── taskApi.ts      # Task management API service calls
-│   ├── app/                # Redux store & typed hooks configuration
-│   │   ├── hooks.ts        # Typed useAppDispatch & useAppSelector
-│   │   └── store.ts        # Redux store root configuration
 │   ├── components/         # Reusable presentation components
 │   │   ├── common/         # StatCard, StatusChip, ErrorBoundary, Loader, etc.
 │   │   └── layout/         # AppLayout, Header, Sidebar navigation
 │   ├── context/            # Context API + useReducer for presentational UI state
-│   │   └── UIContext.tsx   # Sidebar state & toast snackbar stack
-│   ├── features/           # Redux Toolkit domain slices & thunks
-│   │   ├── auth/           # Authentication state & login thunk
-│   │   └── tasks/          # Task CRUD state, thunks & metrics selectors
+│   │   ├── UIContext.tsx   # Context provider & useUI hook
+│   │   └── uiReducer.ts    # Reducer state & action handler
 │   ├── hooks/              # Custom React hooks (e.g. useDebouncedValue)
 │   ├── pages/              # Application views & pages
 │   │   ├── AdminPage/      # Restricted system analytics view (Admin only)
@@ -280,5 +273,3 @@ react-capstone-taskflow/
 - **`npm run preview`**: Serves the locally generated production build in `dist/`.
 
 ---
-
-© 2026 TaskFlow. Submitted for Capstone Evaluation.

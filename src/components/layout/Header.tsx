@@ -13,8 +13,8 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUI } from '@/context/UIContext';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { logout } from '@/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { logout } from '@/store/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {

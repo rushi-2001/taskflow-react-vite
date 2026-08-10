@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material';
-import { useAppSelector } from '@/app/hooks';
+import { useAppSelector } from '@/store/hooks';
 import UserBreakdownTable from '../DashboardPage/UserBreakdownTable';
 import StatCard from '@/components/common/StatCard';
 import PeopleIcon from '@mui/icons-material/People';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { selectAllTasks } from '@/features/tasks/taskSlice';
+import { selectAllTasks } from '@/store/tasks/task.selectors';
 import { seedUsers } from '@/api/mock/seedData';
 
 export default function AdminPage() {

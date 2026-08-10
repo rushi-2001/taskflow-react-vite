@@ -1,17 +1,10 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Box, Typography, Button, Alert, Tabs, Tab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import {
-  fetchTasks,
-  createTask,
-  updateTask,
-  deleteTask,
-  clearTaskError,
-  selectAllTasks,
-  selectTasksStatus,
-  selectTasksError,
-} from '@/features/tasks/taskSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchTasks, createTask, updateTask, deleteTask } from '@/store/tasks/task.actions';
+import { selectAllTasks, selectTasksStatus, selectTasksError } from '@/store/tasks/task.selectors';
+import { clearTaskError } from '@/store/tasks/taskSlice';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useUI } from '@/context/UIContext';
 import { seedUsers } from '@/api/mock/seedData';
@@ -304,4 +297,3 @@ export default function TasksPage() {
     </Box>
   );
 }
-

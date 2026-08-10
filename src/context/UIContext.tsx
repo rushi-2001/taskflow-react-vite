@@ -1,55 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useReducer, useMemo, useCallback } from 'react';
 import type { ReactNode } from 'react';
+import { uiReducer, initialState } from './uiReducer';
+import type { UIState, SnackbarMessage } from './uiReducer';
 
-export interface SnackbarMessage {
-  id: string;
-  message: string;
-  severity: 'success' | 'info' | 'warning' | 'error';
-}
-
-interface UIState {
-  sidebarOpen: boolean;
-  snackbars: SnackbarMessage[];
-}
-
-type UIAction =
-  | { type: 'TOGGLE_SIDEBAR' }
-  | { type: 'SET_SIDEBAR'; payload: boolean }
-  | { type: 'ENQUEUE_SNACKBAR'; payload: Omit<SnackbarMessage, 'id'> }
-  | { type: 'DEQUEUE_SNACKBAR'; payload: string };
-
-const initialState: UIState = {
-  sidebarOpen: true,
-  snackbars: [],
-};
-
-const uiReducer = (state: UIState, action: UIAction): UIState => {
-  switch (action.type) {
-    case 'TOGGLE_SIDEBAR':
-      return { ...state, sidebarOpen: !state.sidebarOpen };
-    case 'SET_SIDEBAR':
-      return { ...state, sidebarOpen: action.payload };
-    case 'ENQUEUE_SNACKBAR':
-      return {
-        ...state,
-        snackbars: [
-          ...state.snackbars,
-          {
-            ...action.payload,
-            id: `sb_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-          },
-        ],
-      };
-    case 'DEQUEUE_SNACKBAR':
-      return {
-        ...state,
-        snackbars: state.snackbars.filter((sb) => sb.id !== action.payload),
-      };
-    default:
-      return state;
-  }
-};
+export type { SnackbarMessage, UIState } from './uiReducer';
 
 interface UIContextType {
   state: UIState;

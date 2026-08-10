@@ -1,7 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { User, AuthCredentials } from '@/types/user.types';
-import { login as loginApi } from '@/api/authApi';
-import type { NormalizedApiError } from '@/types/api.types';
+import { createSlice } from '@reduxjs/toolkit';
+import type { User } from '@/types/user.types';
+import { login } from './auth.actions';
 
 interface AuthState {
   user: User | null;
@@ -27,21 +26,6 @@ if (storedUser) {
     localStorage.removeItem('taskflow_token');
   }
 }
-
-export const login = createAsyncThunk<
-  { user: User; token: string },
-  AuthCredentials,
-  { rejectValue: NormalizedApiError }
->('auth/login', async (credentials, { rejectWithValue }) => {
-  try {
-    const data = await loginApi(credentials);
-    localStorage.setItem('taskflow_token', data.token);
-    localStorage.setItem('taskflow_user', JSON.stringify(data.user));
-    return data;
-  } catch (err) {
-    return rejectWithValue(err as NormalizedApiError);
-  }
-});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -78,4 +62,5 @@ const authSlice = createSlice({
 });
 
 export const { logout, clearError } = authSlice.actions;
+export { login } from './auth.actions';
 export default authSlice.reducer;

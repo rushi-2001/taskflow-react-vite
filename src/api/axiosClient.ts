@@ -3,7 +3,7 @@ import type { NormalizedApiError } from '@/types/api.types';
 
 export const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL as string,
-  timeout: 10000,
+  timeout: 10_000,
 });
 
 axiosClient.interceptors.request.use(
