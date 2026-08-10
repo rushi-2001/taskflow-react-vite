@@ -1,18 +1,12 @@
 import { Box, Typography } from '@mui/material';
-import { useAppSelector } from '@/store/hooks';
+import { useAdminPage } from './hooks/useAdminPage';
 import UserBreakdownTable from '../DashboardPage/UserBreakdownTable';
 import StatCard from '@/components/common/StatCard';
 import PeopleIcon from '@mui/icons-material/People';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { selectAllTasks } from '@/store/tasks/task.selectors';
-import { seedUsers } from '@/api/mock/seedData';
 
 export default function AdminPage() {
-  const tasks = useAppSelector(selectAllTasks);
-
-  const totalUsers = seedUsers.length;
-  const adminUsers = seedUsers.filter((u) => u.role === 'admin').length;
-  const standardUsers = seedUsers.filter((u) => u.role === 'user').length;
+  const { tasks, totalUsers, adminUsers, standardUsers } = useAdminPage();
 
   return (
     <Box>

@@ -1,38 +1,16 @@
-import { useEffect, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchTasks } from '@/store/tasks/task.actions';
-import { selectAllTasks, selectTaskStats, selectTasksStatus } from '@/store/tasks/task.selectors';
+import { useDashboardPage } from './hooks/useDashboardPage';
 import StatsOverview from './StatsOverview';
 import TaskStatusChart from './TaskStatusChart';
 import UserBreakdownTable from './UserBreakdownTable';
 import Loader from '@/components/common/Loader';
 
 export default function DashboardPage() {
-  const dispatch = useAppDispatch();
-  const tasks = useAppSelector(selectAllTasks);
-  const status = useAppSelector(selectTasksStatus);
-  const stats = useAppSelector(selectTaskStats);
-  const { user } = useAppSelector((state) => state.auth);
+  const { tasks, stats, chartData, isAdmin, isLoading } = useDashboardPage();
 
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, [dispatch]);
-
-  // Translate status metrics for charting
-  const chartData = useMemo(() => {
-    return [
-      { name: 'Completed', value: stats.completed },
-      { name: 'In Progress', value: stats.inProgress },
-      { name: 'Pending', value: stats.pending },
-    ];
-  }, [stats]);
-
-  if (status === 'loading' && tasks.length === 0) {
+  if (isLoading) {
     return <Loader />;
   }
-
-  const isAdmin = user?.role === 'admin';
 
   return (
     <Box>
